@@ -60,6 +60,28 @@ class Rented(models.Model):
     drone_id = models.ForeignKey(Drone, on_delete=models.CASCADE)
 
 class Record(models.Model):
+    email = models.EmailField(max_length=255, unique=True)
+    username = models.CharField(max_length=255, unique=True)
+    avatar = models.URLField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
     start_date = models.DateField()
     end_date = models.DateField()
+    brand = models.CharField(max_length=120)
+    model = models.CharField(max_length=120)
+    weight = models.FloatField()
+    category = models.CharField(max_length=120)
+    max_altitude = models.FloatField()
+    power_source = models.CharField(max_length=120)
+    speed = models.FloatField()
+    departure = models.CharField(max_length=120)
+    landing = models.CharField(max_length=120)
+    length = models.FloatField()
+    image = models.CharField(max_length=120)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=120)
+
+ 
+
+
     
