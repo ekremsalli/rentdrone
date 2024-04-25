@@ -1,0 +1,342 @@
+{
+	"info": {
+		"_postman_id": "e70dc0b3-b05c-44b4-b339-6611853393ad",
+		"name": "JWT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21628278"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"dasdas@gmail.com\",\r\n    \"username\":\"1\",\r\n    \"password\":\"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/register/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Drone",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MTM1ODg2LCJqdGkiOiI0Njc2NGY0ZjBiZWM0ZmViODBjMWQzMTI2ZjZmOGI2NSIsInVzZXJfaWQiOjF9.7_IhXZ63yaUstbm6VlC8gHDVE-3W1BFS0WE6sf-LHMc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"brand\": \"DroneBrand\",\r\n    \"model\": \"DroneModel2\",\r\n    \"weight\": 1.5,\r\n    \"category\": \"Category\",\r\n    \"max_altitude\": 100,\r\n    \"power_source\": \"PowerSou3rce\",\r\n    \"speed\": 50,\r\n    \"departure\": \"Departure\",\r\n    \"landing\": \"Landing\",\r\n    \"length\": 30,\r\n    \"image\": \"imag23e_url\",\r\n    \"price\": 500,\r\n    \"status\": \"Stat2us\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/drone/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"drone",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all drone",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MTM1ODg2LCJqdGkiOiI0Njc2NGY0ZjBiZWM0ZmViODBjMWQzMTI2ZjZmOGI2NSIsInVzZXJfaWQiOjF9.7_IhXZ63yaUstbm6VlC8gHDVE-3W1BFS0WE6sf-LHMc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/drone/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"drone",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post drone",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MTM1ODg2LCJqdGkiOiI0Njc2NGY0ZjBiZWM0ZmViODBjMWQzMTI2ZjZmOGI2NSIsInVzZXJfaWQiOjF9.7_IhXZ63yaUstbm6VlC8gHDVE-3W1BFS0WE6sf-LHMc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"brand\": \"DroneBrand\",\r\n    \"model\": \"DroneModel\",\r\n    \"weight\": 1.5,\r\n    \"category\": \"Category\",\r\n    \"max_altitude\": 100,\r\n    \"power_source\": \"PowerSource\",\r\n    \"speed\": 50,\r\n    \"departure\": \"Departure\",\r\n    \"landing\": \"Landing\",\r\n    \"length\": 30,\r\n    \"image\": \"image_url\",\r\n    \"price\": 500,\r\n    \"status\": \"Status\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/drone/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"drone",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Drone",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MTM1ODg2LCJqdGkiOiI0Njc2NGY0ZjBiZWM0ZmViODBjMWQzMTI2ZjZmOGI2NSIsInVzZXJfaWQiOjF9.7_IhXZ63yaUstbm6VlC8gHDVE-3W1BFS0WE6sf-LHMc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/drone/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"drone",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MTM1ODg2LCJqdGkiOiI0Njc2NGY0ZjBiZWM0ZmViODBjMWQzMTI2ZjZmOGI2NSIsInVzZXJfaWQiOjF9.7_IhXZ63yaUstbm6VlC8gHDVE-3W1BFS0WE6sf-LHMc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/rented/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"rented",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MTM1ODg2LCJqdGkiOiI0Njc2NGY0ZjBiZWM0ZmViODBjMWQzMTI2ZjZmOGI2NSIsInVzZXJfaWQiOjF9.7_IhXZ63yaUstbm6VlC8gHDVE-3W1BFS0WE6sf-LHMc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"start_date\": \"2024-04-25\", \"end_date\": \"2024-05-05\",\"user_id\":1,\"drone_id\":2}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/rented/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"rented",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MTM1ODg2LCJqdGkiOiI0Njc2NGY0ZjBiZWM0ZmViODBjMWQzMTI2ZjZmOGI2NSIsInVzZXJfaWQiOjF9.7_IhXZ63yaUstbm6VlC8gHDVE-3W1BFS0WE6sf-LHMc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"start_date\": \"2023-04-25\", \"end_date\": \"2024-05-05\",\"user_id\":1,\"drone_id\":2}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/rented/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"rented",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MTM1ODg2LCJqdGkiOiI0Njc2NGY0ZjBiZWM0ZmViODBjMWQzMTI2ZjZmOGI2NSIsInVzZXJfaWQiOjF9.7_IhXZ63yaUstbm6VlC8gHDVE-3W1BFS0WE6sf-LHMc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/rented/6",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"rented",
+						"6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
