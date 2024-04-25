@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
-from .models import UserProfile,Drone
-from .serializers import UserProfileSerializer,DroneSerializer
+from .models import UserProfile,Drone,Rented
+from .serializers import UserProfileSerializer,DroneSerializer,RentedSerializer
 
 class RegisterUserView(APIView):
     parser_classes = [JSONParser, MultiPartParser, FormParser]
@@ -86,4 +86,35 @@ class DroneEditView(APIView):
         drone = Drone.objects.get(id=pk)
         drone.delete()
         return Response({'message': 'Drone has been deleted'}, status=status.HTTP_204_NO_CONTENT)
+
+class RentedView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        rented = Rented.objects.all()
+        serializer = RentedSerializer(rented, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        serializer = RentedSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class RentedEditView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def put(self, request,pk):
+        rented = Rented.objects.get(id=pk)
+        rented.start_date = request.data['start_date']
+        rented.end_date = request.data['end_date']
+        rented.save()
+        return Response({'message': 'Rental features have been uptaded'}, status=status.HTTP_200_OK)
+    
+    def delete(self, request, pk):
+        rented = Rented.objects.get(id=pk)
+        rented.delete()
+        return Response({'message': 'Rental information has been deleted'}, status=status.HTTP_200_OK)
     
