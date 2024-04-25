@@ -1,12 +1,43 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
-class User(models.Model):
-    name = models.CharField(max_length=120)
-    surname = models.CharField(max_length=120)
-    password = models.CharField(max_length=120)
-    e_mail = models.CharField(max_length=120)
-    phone = models.CharField(max_length=120)
+class UserProfileManager(BaseUserManager):
+    """Manager for user profiles"""
 
+    def create_user(self, email, username, password=None):
+        if not email:
+            raise ValueError('Users must have an email')
+
+        email = self.normalize_email(email)
+        user = self.model(email=email, username=username)
+
+        user.set_password(password)
+        user.save(using=self._db)
+
+        return user
+
+    def create_superuser(self, email, username, password):
+        user = self.create_user(email, username, password)
+
+        user.is_superuser = True
+        user.is_staff = True
+        user.save(using=self._db)
+
+class UserProfile(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(max_length=255, unique=True)
+    username = models.CharField(max_length=255, unique=True)
+    avatar = models.URLField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    objects = UserProfileManager()
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
+
+    def __str__(self):
+        return self.email
+    
 class Drone(models.Model):
     brand = models.CharField(max_length=120)
     model = models.CharField(max_length=120)
@@ -25,7 +56,6 @@ class Drone(models.Model):
 class Rented(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     drone_id = models.ForeignKey(Drone, on_delete=models.CASCADE)
-
-
+    
