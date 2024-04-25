@@ -49,7 +49,7 @@ class Drone(models.Model):
     departure = models.CharField(max_length=120)
     landing = models.CharField(max_length=120)
     length = models.FloatField()
-    image = models.ImageField(upload_to='drone_images/')
+    image = models.CharField(max_length=120)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=120)
 
@@ -58,4 +58,8 @@ class Rented(models.Model):
     end_date = models.DateField()
     user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     drone_id = models.ForeignKey(Drone, on_delete=models.CASCADE)
+
+class Record(models.Model):
+    start_date = models.DateField()
+    end_date = models.DateField()
     
