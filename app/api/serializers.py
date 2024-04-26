@@ -1,6 +1,6 @@
 from .models import UserProfile 
 from rest_framework import serializers
-from .models import UserProfile,Drone,Rented
+from .models import UserProfile,Drone,Rented,Record
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,4 +21,9 @@ class DroneSerializer(serializers.ModelSerializer):
 class RentedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rented
+        fields = '__all__'
+
+class RecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Record
         fields = '__all__'

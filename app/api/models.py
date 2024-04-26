@@ -60,13 +60,16 @@ class Rented(models.Model):
     drone_id = models.ForeignKey(Drone, on_delete=models.CASCADE)
 
 class Record(models.Model):
+    #user
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(max_length=255, unique=True)
     avatar = models.URLField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    #rented
     start_date = models.DateField()
     end_date = models.DateField()
+    #drone
     brand = models.CharField(max_length=120)
     model = models.CharField(max_length=120)
     weight = models.FloatField()

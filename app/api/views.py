@@ -1,3 +1,6 @@
+from .models import Drone  # Assuming this is your model class
+# Assuming this is your serializer class
+from .serializers import RentedSerializer
 from django.shortcuts import render
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from rest_framework.views import APIView
@@ -5,11 +8,13 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
-from .models import UserProfile,Drone,Rented
-from .serializers import UserProfileSerializer,DroneSerializer,RentedSerializer
+from .models import UserProfile, Drone, Rented, Record
+from .serializers import UserProfileSerializer, DroneSerializer, RentedSerializer, RecordSerializer
+
 
 class RegisterUserView(APIView):
     parser_classes = [JSONParser, MultiPartParser, FormParser]
+
     def post(self, request):
 
         # if email is already in use
@@ -22,7 +27,8 @@ class RegisterUserView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+
 class UserView(APIView):
     permission_classes = (IsAuthenticated,)
     parser_classes = [JSONParser, MultiPartParser, FormParser]
@@ -37,7 +43,8 @@ class UserView(APIView):
         user.avatar = request.data['avatar']
         user.save()
         return Response({'message': 'Image updated'}, status=status.HTTP_200_OK)
-    
+
+
 class AllUsersView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -45,7 +52,8 @@ class AllUsersView(APIView):
         users = UserProfile.objects.all()
         serializer = UserProfileSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
+
 class DroneView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -53,7 +61,7 @@ class DroneView(APIView):
         drones = Drone.objects.all()
         serializer = DroneSerializer(drones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def post(self, request):
         serializer = DroneSerializer(data=request.data)
 
@@ -61,12 +69,7 @@ class DroneView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from .serializers import RentedSerializer  # Assuming this is your serializer class
-from .models import Drone  # Assuming this is your model class
+
 
 class DroneFilteredView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -94,25 +97,30 @@ class DroneFilteredView(APIView):
         if model:
             queryset = queryset.filter(model=model)
         if weight:
-            queryset = queryset.filter(weight=weight)  # Assuming weight is a FloatField
+            # Assuming weight is a FloatField
+            queryset = queryset.filter(weight=weight)
         if category:
             queryset = queryset.filter(category=category)
         if max_altitude:
-            queryset = queryset.filter(max_altitude=max_altitude)  # Assuming max_altitude is a FloatField
+            # Assuming max_altitude is a FloatField
+            queryset = queryset.filter(max_altitude=max_altitude)
         if power_source:
             queryset = queryset.filter(power_source=power_source)
         if speed:
-            queryset = queryset.filter(speed=speed)  # Assuming speed is a FloatField
+            # Assuming speed is a FloatField
+            queryset = queryset.filter(speed=speed)
         if departure:
             queryset = queryset.filter(departure=departure)
         if landing:
             queryset = queryset.filter(landing=landing)
         if length:
-            queryset = queryset.filter(length=length)  # Assuming length is a FloatField
+            # Assuming length is a FloatField
+            queryset = queryset.filter(length=length)
         if image:
             queryset = queryset.filter(image=image)
         if price:
-            queryset = queryset.filter(price=price)  # Assuming price is a DecimalField
+            # Assuming price is a DecimalField
+            queryset = queryset.filter(price=price)
         if status:
             queryset = queryset.filter(status=status)
 
@@ -121,11 +129,10 @@ class DroneFilteredView(APIView):
         return Response(serializer.data)
 
 
-
 class DroneEditView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def put(self, request,pk):
+    def put(self, request, pk):
         drone = Drone.objects.get(id=pk)
         drone.brand = request.data['brand']
         drone.model = request.data['model']
@@ -142,11 +149,12 @@ class DroneEditView(APIView):
         drone.status = request.data['status']
         drone.save()
         return Response({'message': 'Drone features have been uptaded'}, status=status.HTTP_200_OK)
-    
+
     def delete(self, request, pk):
         drone = Drone.objects.get(id=pk)
         drone.delete()
         return Response({'message': 'Drone has been deleted'}, status=status.HTTP_204_NO_CONTENT)
+
 
 class RentedView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -155,25 +163,54 @@ class RentedView(APIView):
         rented = Rented.objects.all()
         serializer = RentedSerializer(rented, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def post(self, request):
         serializer = RentedSerializer(data=request.data)
-
+        record = Record.objects.all()
+        user = UserProfile.objects.get(id=request.data.user_id)
+        drone = Drone.objects.get(id=request.data.drone_id)
+        #user
+        record.email = user.get('email')
+        record.username = user.get('username')
+        record.avatar = user.get('avatar')
+        record.is_active = user.get('is_active')
+        record.is_staff = user.get('is_staff')
+        #rented
+        record.start_date = request.data.get('start_date')  
+        record.end_date = request.data.get('end_date')  
+        #drone
+        record.brand = drone.get('brand')
+        record.model = drone.get('model')
+        record.weight = drone.get('weight')
+        record.category = drone.get('category')
+        record.max_altitude = drone.get('max_altitude')
+        record.power_source = drone.get('power_source')
+        record.speed = drone.get('speed')
+        record.departure = request.data.get('departure')  
+        record.landing = request.data.get('landing') 
+        record.length = drone.get('length')
+        record.image = drone.get('image')
+        record.price = drone.get('price')
+        record.status = request.data.get('status')  
+        record_serializer = RecordSerializer(record, many=True)
         if serializer.is_valid():
             serializer.save()
+        if record_serializer.is_valid():
+            record_serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+
 class RentedEditView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def put(self, request,pk):
+    def put(self, request, pk):
         rented = Rented.objects.get(id=pk)
         rented.start_date = request.data['start_date']
         rented.end_date = request.data['end_date']
         rented.save()
         return Response({'message': 'Rental features have been uptaded'}, status=status.HTTP_200_OK)
-    
+
     def delete(self, request, pk):
         rented = Rented.objects.get(id=pk)
         rented.delete()
