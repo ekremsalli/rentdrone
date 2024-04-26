@@ -61,6 +61,67 @@ class DroneView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import RentedSerializer  # Assuming this is your serializer class
+from .models import Drone  # Assuming this is your model class
+
+class DroneFilteredView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        brand = request.query_params.get('brand', None)
+        model = request.query_params.get('model', None)
+        weight = request.query_params.get('weight', None)
+        category = request.query_params.get('category', None)
+        max_altitude = request.query_params.get('max_altitude', None)
+        power_source = request.query_params.get('power_source', None)
+        speed = request.query_params.get('speed', None)
+        departure = request.query_params.get('departure', None)
+        landing = request.query_params.get('landing', None)
+        length = request.query_params.get('length', None)
+        image = request.query_params.get('image', None)
+        price = request.query_params.get('price', None)
+        status = request.query_params.get('status', None)
+
+        queryset = Drone.objects.all()
+
+        # Filter based on provided query parameters
+        if brand:
+            queryset = queryset.filter(brand=brand)
+        if model:
+            queryset = queryset.filter(model=model)
+        if weight:
+            queryset = queryset.filter(weight=weight)  # Assuming weight is a FloatField
+        if category:
+            queryset = queryset.filter(category=category)
+        if max_altitude:
+            queryset = queryset.filter(max_altitude=max_altitude)  # Assuming max_altitude is a FloatField
+        if power_source:
+            queryset = queryset.filter(power_source=power_source)
+        if speed:
+            queryset = queryset.filter(speed=speed)  # Assuming speed is a FloatField
+        if departure:
+            queryset = queryset.filter(departure=departure)
+        if landing:
+            queryset = queryset.filter(landing=landing)
+        if length:
+            queryset = queryset.filter(length=length)  # Assuming length is a FloatField
+        if image:
+            queryset = queryset.filter(image=image)
+        if price:
+            queryset = queryset.filter(price=price)  # Assuming price is a DecimalField
+        if status:
+            queryset = queryset.filter(status=status)
+
+        serializer = RentedSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+
+
 class DroneEditView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -117,4 +178,27 @@ class RentedEditView(APIView):
         rented = Rented.objects.get(id=pk)
         rented.delete()
         return Response({'message': 'Rental information has been deleted'}, status=status.HTTP_200_OK)
-    
+
+
+class RentedFilteredView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        start_date = request.query_params.get('start_date', None)
+        end_date = request.query_params.get('end_date', None)
+        user_id = request.query_params.get('user_id', None)
+        drone_id = request.query_params.get('drone_id', None)
+
+        queryset = Rented.objects.all()
+
+        if start_date:
+            queryset = queryset.filter(start_date=start_date)
+        if end_date:
+            queryset = queryset.filter(end_date=end_date)
+        if user_id:
+            queryset = queryset.filter(user_id=user_id)
+        if drone_id:
+            queryset = queryset.filter(drone_id=drone_id)
+
+        serializer = RentedSerializer(queryset, many=True)
+        return Response(serializer.data)
