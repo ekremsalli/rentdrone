@@ -20,7 +20,7 @@ export default function Rented({ jwt }) {
     };
 
     fetchData();
-  }, [jwt]); // Dependency array includes jwt for re-fetching on JWT change
+  }, [products]); // Dependency array includes jwt for re-fetching on JWT change
   const columns = [
     {
       name: 'id',
