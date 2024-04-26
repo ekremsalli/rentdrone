@@ -17,7 +17,6 @@ class RegisterUserView(APIView):
 
     def post(self, request):
 
-        # if email is already in use
         if UserProfile.objects.filter(email=request.data['email']).exists():
             return Response({'error': 'Email already registered'}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -91,35 +90,29 @@ class DroneFilteredView(APIView):
 
         queryset = Drone.objects.all()
 
-        # Filter based on provided query parameters
         if brand:
             queryset = queryset.filter(brand=brand)
         if model:
             queryset = queryset.filter(model=model)
         if weight:
-            # Assuming weight is a FloatField
             queryset = queryset.filter(weight=weight)
         if category:
             queryset = queryset.filter(category=category)
         if max_altitude:
-            # Assuming max_altitude is a FloatField
             queryset = queryset.filter(max_altitude=max_altitude)
         if power_source:
             queryset = queryset.filter(power_source=power_source)
         if speed:
-            # Assuming speed is a FloatField
             queryset = queryset.filter(speed=speed)
         if departure:
             queryset = queryset.filter(departure=departure)
         if landing:
             queryset = queryset.filter(landing=landing)
         if length:
-            # Assuming length is a FloatField
             queryset = queryset.filter(length=length)
         if image:
             queryset = queryset.filter(image=image)
         if price:
-            # Assuming price is a DecimalField
             queryset = queryset.filter(price=price)
         if status:
             queryset = queryset.filter(status=status)
@@ -166,37 +159,37 @@ class RentedView(APIView):
 
     def post(self, request):
         serializer = RentedSerializer(data=request.data)
-        record = Record.objects.all()
-        user = UserProfile.objects.get(id=request.data.user_id)
-        drone = Drone.objects.get(id=request.data.drone_id)
-        #user
-        record.email = user.get('email')
-        record.username = user.get('username')
-        record.avatar = user.get('avatar')
-        record.is_active = user.get('is_active')
-        record.is_staff = user.get('is_staff')
-        #rented
-        record.start_date = request.data.get('start_date')  
-        record.end_date = request.data.get('end_date')  
-        #drone
-        record.brand = drone.get('brand')
-        record.model = drone.get('model')
-        record.weight = drone.get('weight')
-        record.category = drone.get('category')
-        record.max_altitude = drone.get('max_altitude')
-        record.power_source = drone.get('power_source')
-        record.speed = drone.get('speed')
-        record.departure = request.data.get('departure')  
-        record.landing = request.data.get('landing') 
-        record.length = drone.get('length')
-        record.image = drone.get('image')
-        record.price = drone.get('price')
-        record.status = request.data.get('status')  
-        record_serializer = RecordSerializer(record, many=True)
+        # record = Record.objects.all()
+        # user = UserProfile.objects.get(id=request.data.user_id)
+        # drone = Drone.objects.get(id=request.data.drone_id)
+        # #user
+        # record.email = user.get('email')
+        # record.username = user.get('username')
+        # record.avatar = user.get('avatar')
+        # record.is_active = user.get('is_active')
+        # record.is_staff = user.get('is_staff')
+        # #rented
+        # record.start_date = request.data.get('start_date')  
+        # record.end_date = request.data.get('end_date')  
+        # #drone
+        # record.brand = drone.get('brand')
+        # record.model = drone.get('model')
+        # record.weight = drone.get('weight')
+        # record.category = drone.get('category')
+        # record.max_altitude = drone.get('max_altitude')
+        # record.power_source = drone.get('power_source')
+        # record.speed = drone.get('speed')
+        # record.departure = request.data.get('departure')  
+        # record.landing = request.data.get('landing') 
+        # record.length = drone.get('length')
+        # record.image = drone.get('image')
+        # record.price = drone.get('price')
+        # record.status = request.data.get('status')  
+        # record_serializer = RecordSerializer(record, many=True)
         if serializer.is_valid():
             serializer.save()
-        if record_serializer.is_valid():
-            record_serializer.save()
+        # if record_serializer.is_valid():
+        #     record_serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

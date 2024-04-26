@@ -22,6 +22,8 @@ export default function LoginPage() {
         password,
       });
       setJwt(response.data.access)
+      localStorage.setItem("accessToken", response.data.access);
+      localStorage.setItem("refreshToken", response.data.refresh);
       if (response.data.access) {
         navigate('/home', { state: { jwt: response.data.access } }); 
       } else {

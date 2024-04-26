@@ -8,10 +8,10 @@ export default function Rented({ jwt }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = localStorage.getItem('accessToken')
         const response = await axios.get('http://127.0.0.1:8000/rented/', {
-          headers: { Authorization: `Bearer ${jwt}` }, // Include JWT for authorization
-        });
-        console.log(jwt)
+         headers: { Authorization: `Bearer ${token}` }
+       });
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -22,14 +22,26 @@ export default function Rented({ jwt }) {
     fetchData();
   }, [jwt]); // Dependency array includes jwt for re-fetching on JWT change
   const columns = [
-	{
-		name: 'Title',
-		selector: row => row.title,
-	},
-	{
-		name: 'Year',
-		selector: row => row.year,
-	},
+    {
+      name: 'id',
+      selector: row => row.id,
+    },
+    {
+      name: 'start_date',
+      selector: row => row.start_date,
+    },
+    {
+      name: 'end_date',
+      selector: row => row.end_date,
+    },
+    {
+      name: 'user_id',
+      selector: row => row.user_id,
+    },
+    {
+      name: 'drone_id',
+      selector: row => row.drone_id,
+    },
 ];
   return (
     <div className="card">

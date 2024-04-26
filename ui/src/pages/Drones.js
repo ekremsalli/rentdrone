@@ -8,9 +8,9 @@ export default function Drones({ jwt }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(jwt)
-        const response = await axios.get('http://127.0.0.1:8000/drone/', {
-          headers: { Authorization: `Bearer Token ${jwt}` }
+         const token = localStorage.getItem('accessToken')
+         const response = await axios.get('http://127.0.0.1:8000/drone/', {
+          headers: { Authorization: `Bearer ${token}` }
         });
         
         setProducts(response.data);
@@ -24,12 +24,60 @@ export default function Drones({ jwt }) {
   }, [jwt]); // Dependency array includes jwt for re-fetching on JWT change
   const columns = [
 	{
-		name: 'Title',
-		selector: row => row.title,
+		name: 'id',
+		selector: row => row.id,
 	},
 	{
-		name: 'Year',
-		selector: row => row.year,
+		name: 'brand',
+		selector: row => row.brand,
+	},
+  {
+		name: 'model',
+		selector: row => row.model,
+	},
+	{
+		name: 'weigth',
+		selector: row => row.weigth,
+	},
+  {
+		name: 'category',
+		selector: row => row.category,
+	},
+	{
+		name: 'max_altitude',
+		selector: row => row.max_altitude,
+	},
+  {
+		name: 'power_source',
+		selector: row => row.power_source,
+	},
+	{
+		name: 'speed',
+		selector: row => row.speed,
+	},
+  {
+		name: 'departure',
+		selector: row => row.category,
+	},
+	{
+		name: 'landing',
+		selector: row => row.max_altitude,
+	},
+  {
+		name: 'length',
+		selector: row => row.power_source,
+	},
+	{
+		name: 'image',
+		selector: row => row.speed,
+	},
+  {
+		name: 'price',
+		selector: row => row.speed,
+	},
+  {
+		name: 'status',
+		selector: row => row.speed,
 	},
 ];
   return (
