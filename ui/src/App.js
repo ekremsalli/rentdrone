@@ -6,8 +6,8 @@ import LoginPage from './pages/LoginPage'; // Assuming LoginPage.js exists
 import RegisterPage from './pages/RegisterPage'; // Assuming RegisterPage.js exists
 import ForgetPasswordPage from './pages/ForgetPasswordPage'; // Assuming ForgetPasswordPage.js exists
 import HomePage from './pages/HomePage'; // Assuming HomePage.js exists
-import HomePage from './pages/Rented'; // Assuming HomePage.js exists
-import HomePage from './pages/Drones'; // Assuming HomePage.js exists
+import Rented from './pages/Rented'; // Assuming HomePage.js exists
+import Drones from './pages/Drones'; // Assuming HomePage.js exists
 
 import './App.css'; // Assuming App.css exists (optional)
 
@@ -21,8 +21,8 @@ export default function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forget-password" element={<ForgetPasswordPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/drones" element={<RegisterPage />} />
-          <Route path="/rented" element={<RegisterPage />} />
+          <Route path="/drones" element={<Drones />} />
+          <Route path="/rented" element={<Rented />} />
         </Routes>
         <Footer />
       </div>

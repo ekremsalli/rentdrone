@@ -1,14 +1,14 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Assuming you're using Axios for API calls
 import HomePage from './HomePage';
+import React, { useState } from 'react';
 
 import '../App.css';
 
-export default function SignInPage() {
+export default function LoginPage() {
   const navigate = useNavigate();
 
-  const [jwt, setJwt] = useState('');
+  const [jwt, setJwt] = useState();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,10 +21,9 @@ export default function SignInPage() {
         username,
         password,
       });
-      setJwtToken(response.data.acces)
+      setJwt(response.data.access)
       if (response.data.access) {
-        // Login successful, redirect to desired page
-        navigate('/home'); // Assuming '/home' is the protected page
+        navigate('/home', { state: { jwt: response.data.access } }); 
       } else {
         // Handle login failure (e.g., display an error message)
         console.error('Login failed:', response.data.message);
